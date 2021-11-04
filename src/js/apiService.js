@@ -8,7 +8,8 @@ export default class ImgApiService {
   }
 
   fetchArticles() {
-    const url = `${BASE_URL}/?q=${this.searchQuery}&image_type=photo&per_page=12&page=${this.page}&key=${API_KEY}`;
+    // const url = `${BASE_URL}/?q=${this.searchQuery}&image_type=photo&per_page=12&page=${this.page}&key=${API_KEY}`;
+    const url = `${BASE_URL}/?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=12&key=${API_KEY}`;
 
     return fetch(url)
       .then(response => response.json())
