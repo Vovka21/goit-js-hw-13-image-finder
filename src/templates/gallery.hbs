@@ -1,10 +1,18 @@
 {{#each this}}
-  <li>
-    <img src='{{webformatURL}}' alt='{{tags}}' />
-    <h2></h2>
-    <p>Likes: {{likes}}</p>
-    <p>Views: {{views}}</p>
-    <p>Comments: {{comments}}</p>
-    <p>Downloads: {{downloads}}</p>
-  </li>
+  <li class='list-item'>
+    <div class='photo-card'>
+      <img
+        loading='lazy'
+        class='little-image lzy_img'
+        src='{{webformatURL}}'
+        alt='{{tags}}'
+        data-source='{{largeImageURL}}'
+      />
+
+      <div class='stats'>
+        <p class='stats-item'><i class='material-icons'>thumb_up </i>{{likes}}</p>
+        <p class='stats-item'><i class='material-icons'>visibility</i>{{views}}</p>
+        <p class='stats-item'><i class='material-icons'>comment</i>{{comments}}</p>
+        <p class='stats-item'><i class='material-icons'>cloud_download</i>{{downloads}}</p>
+      </div></div></li>
 {{/each}}

@@ -1,21 +1,15 @@
 import './sass/main.scss';
+
+const { JSDOM } = require('jsdom');
+const { window } = new JSDOM('');
+const $ = require('jquery')(window);
+
 import ImgApiService from './js/apiService.js';
 import galleryList from './templates/gallery.hbs';
 
-// const getImage = () => {
-//   return fetch(
-//     `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=что_искать&page=номер_страницы&per_page=12&key=24121989-9eb31354267b9bbbf5c8e125c`,
-//   ).then(response => {
-//     if (response.ok) {
-//       return response.json();
-//     }
-//     console.log(response.text);
-//   });
-// };
-
 const forms = document.querySelector('.search-form');
 const imgList = document.querySelector('.gallery');
-const loader = document.querySelector('#loader');
+const loader = document.querySelector('.loader');
 const input = document.querySelector('.input');
 const btnSearch = document.querySelector('.search');
 const btnLoadMore = document.querySelector('.load-more');
@@ -36,12 +30,16 @@ function onSearch(e) {
 
   imgApiService.resetPage();
   imgApiService.fetchArticles().then(imgListMarkup);
-  // imgApiService.fetchArticles();
+
+  // loader.classList.remove('is-hiden');
+
+  btnLoadMore.classList.remove('is-hiden');
 }
 
 function onLoadMore() {
   imgApiService.fetchArticles().then(imgListMarkup);
-  // imgApiService.fetchArticles();
+  // const element = document.querySelector('.photo-card');
+  // element.scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
 
 function imgListMarkup(hits) {
@@ -51,3 +49,56 @@ function imgListMarkup(hits) {
 function clearImgListMarkup() {
   imgList.innerHTML = '';
 }
+
+//^ -------------------------------------------------
+
+const modal = document.querySelector('.lightbox');
+const image = document.querySelector('.lightbox__image');
+const close = document.querySelector('.lightbox__button');
+const bigImage = document.querySelector('.big-image');
+const overlay = document.querySelector('.lightbox__overlay');
+
+imgList.addEventListener('click', modalOpen);
+
+function modalOpen(event) {
+  event.preventDefault();
+  addImageModal(event);
+
+  window.addEventListener('keydown', onEscKeyPress);
+  modal.classList.add('is-open');
+}
+
+function addImageModal(event) {
+  const bigImgRef = event.target.getAttribute('data-source');
+  const alt = event.target.getAttribute('alt');
+  image.setAttribute('src', bigImgRef);
+  image.setAttribute('alt', alt);
+}
+
+close.addEventListener('click', modalClose);
+
+function modalClose() {
+  window.removeEventListener('keydown', onEscKeyPress);
+  modal.classList.remove('is-open');
+  image.src = '';
+  image.alt = '';
+}
+
+function onEscKeyPress(event) {
+  const ESC_KEY_CODE = 'Escape';
+  const isEscKey = event.code === ESC_KEY_CODE;
+
+  if (isEscKey) {
+    modalClose();
+  }
+}
+
+overlay.addEventListener('click', clickOverlay);
+
+function clickOverlay(event) {
+  if (event.currentTarget === event.target) {
+    modalClose();
+  }
+}
+
+// ^---------------------------
