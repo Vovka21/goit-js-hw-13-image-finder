@@ -70,12 +70,19 @@ li::marker {
   color: rgb(0, 253, 0);
 }
 
+i {
+  margin-right: 20px;
+}
+
 p {
   color: red;
   margin-left: 50px;
+  display: flex;
+  align-items: center;
 }
 
 img {
+  pointer-events: auto;
   border-radius: 6px;
   border: rgb(200, 255, 0) solid 2px;
 }
@@ -211,4 +218,9 @@ img {
   to {
     transform: rotate(360deg);
   }
+}
+
+.gallery {
+  pointer-events: none;
+  margin: 10px 100px;
 }

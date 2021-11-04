@@ -1,11 +1,13 @@
 import './sass/main.scss';
-
-const { JSDOM } = require('jsdom');
-const { window } = new JSDOM('');
-const $ = require('jquery')(window);
-
 import ImgApiService from './js/apiService.js';
 import galleryList from './templates/gallery.hbs';
+
+import '@pnotify/core/dist/BrightTheme.css';
+import '@pnotify/core/dist/PNotify.css';
+import { alert, defaultModules } from '@pnotify/core';
+import * as PNotifyMobile from '@pnotify/mobile';
+import { defaults } from '@pnotify/core';
+defaults.delay = 1000;
 
 const forms = document.querySelector('.search-form');
 const imgList = document.querySelector('.gallery');
@@ -37,6 +39,12 @@ function onSearch(e) {
 }
 
 function onLoadMore() {
+  defaultModules.set(PNotifyMobile, {});
+
+  alert({
+    text: 'Загрузил ещё картинок!',
+  });
+
   imgApiService.fetchArticles().then(imgListMarkup);
   // const element = document.querySelector('.photo-card');
   // element.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -55,7 +63,7 @@ function clearImgListMarkup() {
 const modal = document.querySelector('.lightbox');
 const image = document.querySelector('.lightbox__image');
 const close = document.querySelector('.lightbox__button');
-const bigImage = document.querySelector('.big-image');
+
 const overlay = document.querySelector('.lightbox__overlay');
 
 imgList.addEventListener('click', modalOpen);
