@@ -1,6 +1,7 @@
 import './sass/main.scss';
 import ImgApiService from './js/apiService.js';
 import galleryList from './templates/gallery.hbs';
+import LoadMoreBtn from './js/load-more-btn.js';
 
 import '@pnotify/core/dist/BrightTheme.css';
 import '@pnotify/core/dist/PNotify.css';
@@ -14,48 +15,82 @@ const imgList = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 const input = document.querySelector('.input');
 const btnSearch = document.querySelector('.search');
-const btnLoadMore = document.querySelector('.load-more');
+// const btnLoadMore = document.querySelector('.load-more');
+
+const li = document.querySelector('.list-item');
+const divCard = document.querySelector('.photo-card');
+const img = document.querySelector('.little-image');
+const stats = document.querySelector('.stats');
+const icons = document.querySelector('.material-icons');
+
+const loadMoreBtn = new LoadMoreBtn({
+  selector: '.load-more',
+  hidden: true,
+});
 
 const imgApiService = new ImgApiService();
 
 forms.addEventListener('submit', onSearch);
-btnLoadMore.addEventListener('click', onLoadMore);
+// btnLoadMore.addEventListener('click', onLoadMore);
+loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
+
+// !
+
+// let observer = new IntersectionObserver(
+//   (entries, observer) => {
+//     entries.forEach(entry => {
+//       if (entry.isIntersecting) {
+//         onLoadMore();
+//       }
+//     });
+//   },
+//   { threshold: 1 },
+// );
+
+// document.querySelectorAll('img:last-child').forEach(img => {
+//   observer.observe(img);
+// });
+
+// !
 
 function onSearch(e) {
   e.preventDefault();
 
   imgApiService.query = e.currentTarget.elements.query.value;
+
   if (imgApiService.query === '') {
     return alert('Request not enterd!');
   }
+
+  loadMoreBtn.show();
+  imgApiService.resetPage();
   clearImgListMarkup();
 
-  imgApiService.resetPage();
+  loadMoreBtn.disable();
   imgApiService.fetchArticles().then(imgListMarkup);
 
-  // loader.classList.remove('is-hiden');
-
-  btnLoadMore.classList.remove('is-hiden');
+  // btnLoadMore.classList.remove('is-hidden');
+  // loader.classList.remove('is-hidden');
 }
 
 function onLoadMore() {
   defaultModules.set(PNotifyMobile, {});
-
   alert({
     text: 'Загрузил ещё картинок!',
   });
 
+  loadMoreBtn.disable();
   imgApiService.fetchArticles().then(imgListMarkup);
 
-  const element = document.querySelector('.photo-card');
-  const li = document.querySelector('.list-item');
-  console.log(imgList.lastElementChild);
-
-  // element.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  imgList.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  //^ imgList.lastElementChild.scrollIntoView({
+  //^  behavior: 'smooth',
+  //^   top: 'false',
+  //^   block: 'center',
+  //^ });
 }
 
 function imgListMarkup(hits) {
+  loadMoreBtn.enable();
   imgList.insertAdjacentHTML('beforeend', galleryList(hits));
 }
 
