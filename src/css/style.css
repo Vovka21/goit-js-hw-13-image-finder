@@ -4,7 +4,7 @@ body {
 
 .search-form {
   display: flex;
-  margin: 50px 20%;
+  margin: 50px 30%;
 }
 
 .search {
@@ -62,7 +62,9 @@ body {
 }
 
 li {
-  margin-bottom: 100px;
+  margin: 5px 70px;
+  /* padding: 10px; */
+  /* margin-bottom: 100px; */
 }
 
 li::marker {
@@ -82,6 +84,8 @@ p {
 }
 
 img {
+  width: 400px;
+  /* margin: 100px; */
   pointer-events: auto;
   border-radius: 6px;
   border: rgb(200, 255, 0) solid 2px;
@@ -221,6 +225,9 @@ img {
 }
 
 .gallery {
+  display: flex;
+  /* width: 100px; */
+  flex-wrap: wrap;
   pointer-events: none;
-  margin: 10px 100px;
+  /* margin: 10px 100px; */
 }

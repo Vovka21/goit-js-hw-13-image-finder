@@ -46,8 +46,13 @@ function onLoadMore() {
   });
 
   imgApiService.fetchArticles().then(imgListMarkup);
-  // const element = document.querySelector('.photo-card');
+
+  const element = document.querySelector('.photo-card');
+  const li = document.querySelector('.list-item');
+  console.log(imgList.lastElementChild);
+
   // element.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  imgList.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
 
 function imgListMarkup(hits) {
