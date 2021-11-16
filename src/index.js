@@ -82,6 +82,12 @@ function onLoadMore() {
   loadMoreBtn.disable();
   imgApiService.fetchArticles().then(imgListMarkup);
 
+  loadMoreBtn.scrollIntoView({
+    behavior: 'smooth',
+    top: 'false',
+    block: 'center',
+  });
+
   //^ imgList.lastElementChild.scrollIntoView({
   //^  behavior: 'smooth',
   //^   top: 'false',
